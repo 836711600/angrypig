@@ -1,0 +1,45 @@
+#include"angrypig.h"
+void helpmouse();
+void help()
+{
+	RGBBMP24 color;
+	color.r=20;
+	color.g=255;
+	color.b=255;
+	VesaSetColor(*(unsigned long*)&color);
+	out_hz(20,45,"按键：鼠标操作",*(unsigned long*)&color,10,5);
+	out_hz(20,65,"操作：鼠标左键按住小猪拖动，",*(unsigned long*)&color,10,5);
+	out_hz(65,85,"调节发射角度，力度，",*(unsigned long*)&color,10,5);
+	out_hz(65,105,"松开鼠标发射",*(unsigned long*)&color,10,5);
+	VesaBar(225,170,280,190);
+	out_hz("主菜单",230,172,220);
+	helpmouse();	
+}
+
+
+void helpmouse()
+{
+	int xmin,xmax,ymin,ymax,x_max=319,y_max=199; /*此处原为全局变量*/
+	int buttons,xm,ym,x0,y0,x,y;;
+	xmin=0;
+	xmax=x_max-1;
+	ymin=0;
+	ymax=y_max-2;
+	if(init(xmin,xmax,ymin,ymax)==0 ) /* 调用init 函数对鼠标器初始化*/
+	{
+		printf("Mouse or Mouse Driver Absent,P1ease install!");
+		delay(5000);
+		exit(1);
+	}
+	x=100;y=40;
+	cursor(x,y); /* 置光标在屏幕中心。 */
+	for(;;)
+	{
+		newxy(&x,&y,&buttons);
+        	if(x>=225&&x<=280&&y>=170&&y<=190&&buttons)
+                {
+                 	delay(100);    
+                        mainmenu();
+                 }  	         
+	}
+}
